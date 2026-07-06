@@ -169,3 +169,30 @@ body {
 .dark-btn:hover {
   background-color: #f39c12 !important;
 }
+
+.like-btn {
+  margin-top: 15px;
+  padding: 10px 18px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.like-btn:hover {
+  background-color: #219150;
+  transform: scale(1.05);
+}
+
+.dark .like-btn {
+  background-color: #2ecc71;
+  color: black;
+}
+
+.dark .like-btn:hover {
+  background-color: #27ae60;
+}

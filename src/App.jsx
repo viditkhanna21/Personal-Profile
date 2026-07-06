@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
+  const [likes, setLikes] = useState(0);
 
   const student = {
     name: "Vidit Khanna",
@@ -39,6 +40,8 @@ function App() {
         course={student.course}
         college={student.college}
         description={student.description}
+        likes={likes}
+        setLikes={setLikes}
       />
 
       <Skills skills={skills} />
