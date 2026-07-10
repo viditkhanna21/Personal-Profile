@@ -1,13 +1,77 @@
-function Footer(props) {
+import { useState } from "react";
+
+function Footer({ student, setStudent }) {
+
+  const [editing, setEditing] = useState(false);
+
+  const [email, setEmail] = useState(
+    student.email || "vidit.khanna21@gmail.com"
+  );
+
+  const saveEmail = () => {
+
+    setStudent({
+
+      ...student,
+
+      email: email
+
+    });
+
+    setEditing(false);
+
+  };
+
   return (
-    <footer id="contact" className="footer">
 
-      <p>{props.name}</p>
+    <footer className="footer">
 
-      <p>{props.email}</p>
+      <h3>Contact</h3>
+
+      <p>{student.name}</p>
+
+      {
+
+        editing ?
+
+        <>
+
+          <input
+            type="email"
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
+          />
+
+          <button onClick={saveEmail}>
+
+            Save
+
+          </button>
+
+        </>
+
+        :
+
+        <>
+
+          <p>{student.email}</p>
+
+          <button
+            onClick={()=>setEditing(true)}
+          >
+
+            Edit Email
+
+          </button>
+
+        </>
+
+      }
 
     </footer>
+
   );
+
 }
 
 export default Footer;

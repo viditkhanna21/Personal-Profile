@@ -1,38 +1,35 @@
-function Header({ darkMode, setDarkMode }) {
-  const scrollToSection = (id) => {
-    document.getElementById(id).scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
+import { Link } from "react-router-dom";
 
+function Header({ darkMode, setDarkMode }) {
   return (
     <header className="header">
       <h1>My Personal Profile</h1>
 
       <nav>
-        <button onClick={() => scrollToSection("home")}>
-          Home
+
+        <Link to="/">
+          <button>Home</button>
+        </Link>
+
+        <Link to="/skills">
+          <button>Skills</button>
+        </Link>
+
+        <Link to="/hobbies">
+          <button>Hobbies</button>
+        </Link>
+
+        <Link to="/contact">
+          <button>Contact</button>
+        </Link>
+
+        <button
+          className="dark-btn"
+          onClick={() => setDarkMode(!darkMode)}
+        >
+          {darkMode ? "☀ Light" : "🌙 Dark"}
         </button>
 
-        <button onClick={() => scrollToSection("skills")}>
-          Skills
-        </button>
-
-        <button onClick={() => scrollToSection("hobbies")}>
-          Hobbies
-        </button>
-
-        <button onClick={() => scrollToSection("contact")}>
-          Contact
-        </button>
-
-       <button
-  className="dark-btn"
-  onClick={() => setDarkMode(!darkMode)}
->
-  {darkMode ? "☀ Light" : "🌙 Dark"}
-     </button>
       </nav>
     </header>
   );

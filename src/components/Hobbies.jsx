@@ -1,23 +1,75 @@
-function Hobbies(props) {
+import { useState } from "react";
+
+function Hobbies({ hobbies, setHobbies }) {
+
+  const [newHobby, setNewHobby] = useState("");
+
+  const addHobby = () => {
+
+    if (newHobby.trim() === "") return;
+
+    setHobbies([...hobbies, newHobby]);
+
+    setNewHobby("");
+
+  };
+
+  const removeHobby = (hobbyToRemove) => {
+
+    setHobbies(
+
+      hobbies.filter(
+        hobby => hobby !== hobbyToRemove
+      )
+
+    );
+
+  };
+
   return (
-    <section id="hobbies" className="hobbies">
+
+    <section className="hobbies">
 
       <h2>My Hobbies</h2>
 
       <ul>
 
-        {props.hobbies.map((hobby) => (
+        {hobbies.map((hobby) => (
 
           <li key={hobby}>
+
             {hobby}
+
+            <button
+              className="remove-btn"
+              onClick={() => removeHobby(hobby)}
+            >
+              Remove
+            </button>
+
           </li>
 
         ))}
 
       </ul>
 
+      <input
+        type="text"
+        placeholder="Enter new hobby"
+        value={newHobby}
+        onChange={(e) => setNewHobby(e.target.value)}
+      />
+
+      <button onClick={addHobby}>
+
+        Add Hobby
+
+      </button>
+
     </section>
+
   );
+
 }
 
 export default Hobbies;

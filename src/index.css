@@ -196,3 +196,31 @@ body {
 .dark .like-btn:hover {
   background-color: #27ae60;
 }
+
+.profile input,
+.profile textarea {
+
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+
+}
+
+.profile button{
+
+    margin-top:15px;
+
+}
+.remove-btn{
+    margin-left:10px;
+    padding:4px 8px;
+    background:red;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.remove-btn:hover{
+    background:darkred;
+}

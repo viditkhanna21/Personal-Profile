@@ -1,58 +1,106 @@
-import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 import Header from "./components/Header";
-import Profile from "./components/Profile";
-import Skills from "./components/Skills";
-import Hobbies from "./components/Hobbies";
-import Footer from "./components/Footer";
+
+import Home from "./pages/Home";
+import SkillsPage from "./pages/SkillsPage";
+import HobbiesPage from "./pages/HobbiesPage";
+import Contact from "./pages/Contact";
+import { getProfileData } from "./api/fakeApi";
 
 function App() {
+
   const [darkMode, setDarkMode] = useState(false);
-  const [likes, setLikes] = useState(0);
 
-  const student = {
-    name: "Vidit Khanna",
-    course: "B.Tech",
-    college: "South Asian University",
-    description: "Building Websites."
-  };
+  const [student, setStudent] = useState(null);
 
-  const skills = [
-    "HTML",
-    "CSS",
-    "JavaScript",
-    "React"
-  ];
+const [skills, setSkills] = useState([]);
 
-  const hobbies = [
-    "Cricket",
-    "Coding"
-  ];
+const [hobbies, setHobbies] = useState([]);
+
+const [loading, setLoading] = useState(true);
+
+
+useEffect(() => {
+
+  async function loadData() {
+
+    const data = await getProfileData();
+
+    setStudent(data.student);
+
+    setSkills(data.skills);
+
+    setHobbies(data.hobbies);
+
+    setLoading(false);
+
+  }
+
+  loadData();
+
+}, []);
+if (loading) {
+  return <h1>Loading Profile...</h1>;
+}
 
   return (
-    <div className={darkMode ? "dark" : "light"}>
-      <Header
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
-      />
+    <BrowserRouter>
 
-      <Profile
-        name={student.name}
-        course={student.course}
-        college={student.college}
-        description={student.description}
-        likes={likes}
-        setLikes={setLikes}
-      />
+      <div className={darkMode ? "dark" : "light"}>
 
-      <Skills skills={skills} />
+        <Header
+          darkMode={darkMode}
+          setDarkMode={setDarkMode}
+        />
 
-      <Hobbies hobbies={hobbies} />
+        <Routes>
 
-      <Footer
-        name={student.name}
-        email="vidit.khanna21@gmail.com"
-      />
-    </div>
+          <Route
+            path="/"
+            element={
+              <Home
+                student={student}
+                setStudent={setStudent}
+              />
+            }
+          />
+
+         <Route
+  path="/skills"
+  element={
+    <SkillsPage
+      skills={skills}
+      setSkills={setSkills}
+    />
+  }
+/>
+
+<Route
+  path="/hobbies"
+  element={
+    <HobbiesPage
+      hobbies={hobbies}
+      setHobbies={setHobbies}
+    />
+  }
+/>
+
+<Route
+  path="/contact"
+  element={
+    <Contact
+      student={student}
+      setStudent={setStudent}
+    />
+  }
+/>
+        </Routes>
+
+      </div>
+
+    </BrowserRouter>
   );
 }
 
