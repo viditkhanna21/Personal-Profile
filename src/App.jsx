@@ -1,5 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+import {
+  setStudent as setReduxStudent,
+  setSkills as setReduxSkills,
+  setHobbies as setReduxHobbies,
+} from "./redux/profileSlice";
 
 import Header from "./components/Header";
 
@@ -7,101 +14,138 @@ import Home from "./pages/Home";
 import SkillsPage from "./pages/SkillsPage";
 import HobbiesPage from "./pages/HobbiesPage";
 import Contact from "./pages/Contact";
+
 import { getProfileData } from "./api/fakeApi";
+import ProfileContext from "./context/ProfileContext";
 
 function App() {
 
+  const dispatch = useDispatch();
+
+  // Context state (temporary)
   const [darkMode, setDarkMode] = useState(false);
 
   const [student, setStudent] = useState(null);
 
-const [skills, setSkills] = useState([]);
+  const [skills, setSkills] = useState([]);
 
-const [hobbies, setHobbies] = useState([]);
+  const [hobbies, setHobbies] = useState([]);
 
-const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
 
-useEffect(() => {
+    async function loadData() {
 
-  async function loadData() {
+      try {
 
-    const data = await getProfileData();
+        // -------- REAL API --------
 
-    setStudent(data.student);
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/users/1"
+        );
 
-    setSkills(data.skills);
+        const user = await response.json();
 
-    setHobbies(data.hobbies);
+        const studentData = {
+          name: user.name,
+          course: "B.Tech",
+          college: "South Asian University",
+          description: "Learning React",
+          email: user.email,
+        };
 
-    setLoading(false);
+        // Update Context
+        setStudent(studentData);
 
+        // Update Redux
+        dispatch(setReduxStudent(studentData));
+
+        // -------- FAKE API --------
+
+        const data = await getProfileData();
+
+        // Update Context
+        setSkills(data.skills);
+        setHobbies(data.hobbies);
+
+        // Update Redux
+        dispatch(setReduxSkills(data.skills));
+        dispatch(setReduxHobbies(data.hobbies));
+
+        setLoading(false);
+
+      } catch (error) {
+
+        console.error(error);
+
+        setLoading(false);
+
+      }
+
+    }
+
+    loadData();
+
+  }, [dispatch]);
+
+  if (loading) {
+    return <h1>Loading Profile...</h1>;
   }
-
-  loadData();
-
-}, []);
-if (loading) {
-  return <h1>Loading Profile...</h1>;
-}
 
   return (
-    <BrowserRouter>
 
-      <div className={darkMode ? "dark" : "light"}>
+    <ProfileContext.Provider
+      value={{
+        student,
+        setStudent,
+        skills,
+        setSkills,
+        hobbies,
+        setHobbies,
+        darkMode,
+        setDarkMode,
+      }}
+    >
 
-        <Header
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
-        />
+      <BrowserRouter>
 
-        <Routes>
+        <div className={darkMode ? "dark" : "light"}>
 
-          <Route
-            path="/"
-            element={
-              <Home
-                student={student}
-                setStudent={setStudent}
-              />
-            }
-          />
+          <Header />
 
-         <Route
-  path="/skills"
-  element={
-    <SkillsPage
-      skills={skills}
-      setSkills={setSkills}
-    />
-  }
-/>
+          <Routes>
 
-<Route
-  path="/hobbies"
-  element={
-    <HobbiesPage
-      hobbies={hobbies}
-      setHobbies={setHobbies}
-    />
-  }
-/>
+            <Route
+              path="/"
+              element={<Home />}
+            />
 
-<Route
-  path="/contact"
-  element={
-    <Contact
-      student={student}
-      setStudent={setStudent}
-    />
-  }
-/>
-        </Routes>
+            <Route
+              path="/skills"
+              element={<SkillsPage />}
+            />
 
-      </div>
+            <Route
+              path="/hobbies"
+              element={<HobbiesPage />}
+            />
 
-    </BrowserRouter>
+            <Route
+              path="/contact"
+              element={<Contact />}
+            />
+
+          </Routes>
+
+        </div>
+
+      </BrowserRouter>
+
+    </ProfileContext.Provider>
+
   );
+
 }
 
 export default App;

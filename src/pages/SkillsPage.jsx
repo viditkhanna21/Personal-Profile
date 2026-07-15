@@ -1,12 +1,9 @@
 import Skills from "../components/Skills";
 
-function SkillsPage({ skills, setSkills }) {
-  return (
-    <Skills
-      skills={skills}
-      setSkills={setSkills}
-    />
-  );
+function SkillsPage() {
+
+  return <Skills />;
+
 }
 
 export default SkillsPage;

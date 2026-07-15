@@ -1,12 +1,7 @@
 import Hobbies from "../components/Hobbies";
 
-function HobbiesPage({ hobbies, setHobbies }) {
-  return (
-    <Hobbies
-      hobbies={hobbies}
-      setHobbies={setHobbies}
-    />
-  );
+function HobbiesPage() {
+  return <Hobbies />;
 }
 
 export default HobbiesPage;

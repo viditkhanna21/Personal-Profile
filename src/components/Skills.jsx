@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import ProfileContext from "../context/ProfileContext";
 
-function Skills({ skills, setSkills }) {
 
+function Skills() {
+const { skills, setSkills } = useContext(ProfileContext);
   const [newSkill, setNewSkill] = useState("");
 
   const addSkill = () => {

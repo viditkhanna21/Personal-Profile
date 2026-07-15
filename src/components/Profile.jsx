@@ -1,6 +1,12 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setStudent } from "../redux/profileSlice";
 
-function Profile({ student, setStudent }) {
+function Profile() {
+
+  const student = useSelector((state) => state.profile.student);
+
+  const dispatch = useDispatch();
 
   const [editing, setEditing] = useState(false);
 
@@ -20,11 +26,15 @@ function Profile({ student, setStudent }) {
 
   const handleSave = () => {
 
-    setStudent(formData);
+    dispatch(setStudent(formData));
 
     setEditing(false);
 
   };
+
+  if (!student) {
+    return <h2>Loading...</h2>;
+  }
 
   if (editing) {
 

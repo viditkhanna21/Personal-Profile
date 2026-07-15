@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import ProfileContext from "../context/ProfileContext";
 
-function Hobbies({ hobbies, setHobbies }) {
+function Hobbies() {
+  const { hobbies, setHobbies } = useContext(ProfileContext);
 
   const [newHobby, setNewHobby] = useState("");
 

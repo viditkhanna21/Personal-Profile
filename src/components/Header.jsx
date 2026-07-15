@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import ProfileContext from "../context/ProfileContext";
 
-function Header({ darkMode, setDarkMode }) {
+function Header() {
+  const { darkMode, setDarkMode } = useContext(ProfileContext);
   return (
+
+    
     <header className="header">
       <h1>My Personal Profile</h1>
 
@@ -22,6 +27,7 @@ function Header({ darkMode, setDarkMode }) {
         <Link to="/contact">
           <button>Contact</button>
         </Link>
+      
 
         <button
           className="dark-btn"

@@ -1,15 +1,8 @@
 import Footer from "../components/Footer";
 
-function Contact({ student, setStudent }) {
+function Contact() {
 
-  return (
-
-    <Footer
-      student={student}
-      setStudent={setStudent}
-    />
-
-  );
+    return <Footer />;
 
 }
 

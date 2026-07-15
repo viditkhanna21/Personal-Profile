@@ -1,15 +1,8 @@
 import Profile from "../components/Profile";
 
-function Home({ student, setStudent }) {
+function Home() {
 
-  return (
-
-    <Profile
-      student={student}
-      setStudent={setStudent}
-    />
-
-  );
+  return <Profile />;
 
 }
 

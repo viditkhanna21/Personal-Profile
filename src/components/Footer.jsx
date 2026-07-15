@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import ProfileContext from "../context/ProfileContext";
 
-function Footer({ student, setStudent }) {
+function Footer() {
+  const { student, setStudent } = useContext(ProfileContext);
 
   const [editing, setEditing] = useState(false);
 
