@@ -1,108 +1,158 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setStudent } from "../redux/profileSlice";
+import ProfileContext from "../context/ProfileContext";
+import { FaUserGraduate } from "react-icons/fa";
 
 function Profile() {
-
   const student = useSelector((state) => state.profile.student);
 
   const dispatch = useDispatch();
+
+  const { darkMode } = useContext(ProfileContext);
 
   const [editing, setEditing] = useState(false);
 
   const [formData, setFormData] = useState(student);
 
   const handleChange = (e) => {
-
     setFormData({
-
       ...formData,
-
-      [e.target.name]: e.target.value
-
+      [e.target.name]: e.target.value,
     });
-
   };
 
   const handleSave = () => {
-
     dispatch(setStudent(formData));
-
     setEditing(false);
-
   };
 
   if (!student) {
-    return <h2>Loading...</h2>;
+    return (
+      <h2 className="text-center text-2xl mt-10">
+        Loading...
+      </h2>
+    );
   }
+
+  // ================= EDIT MODE =================
 
   if (editing) {
-
     return (
+      <section
+        className={`max-w-xl mx-auto mt-12 rounded-2xl shadow-xl p-8 transition-all duration-300 ${
+          darkMode
+            ? "bg-slate-800 text-white"
+            : "bg-white text-slate-900"
+        }`}
+      >
+        <h2 className="text-3xl font-bold text-center mb-6">
+          Edit Profile
+        </h2>
 
-      <section className="profile">
+        <div className="space-y-4">
 
-        <h2>Edit Profile</h2>
+          <input
+            className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
 
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-        />
+          <input
+            className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="text"
+            name="course"
+            value={formData.course}
+            onChange={handleChange}
+          />
 
-        <input
-          type="text"
-          name="course"
-          value={formData.course}
-          onChange={handleChange}
-        />
+          <input
+            className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="text"
+            name="college"
+            value={formData.college}
+            onChange={handleChange}
+          />
 
-        <input
-          type="text"
-          name="college"
-          value={formData.college}
-          onChange={handleChange}
-        />
+          <textarea
+            className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows="4"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+          />
 
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-        />
+          <button
+            onClick={handleSave}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition duration-300"
+          >
+            Save Changes
+          </button>
 
-        <br />
-
-        <button onClick={handleSave}>
-          Save
-        </button>
-
+        </div>
       </section>
-
     );
-
   }
 
+  // ================= VIEW MODE =================
+
   return (
+    <section
+      className={`max-w-xl mx-auto mt-12 rounded-2xl shadow-xl p-8 text-center transition-all duration-300 ${
+        darkMode
+          ? "bg-slate-800 text-white"
+          : "bg-white text-slate-900"
+      }`}
+    >
+      <div className="flex justify-center mb-6">
+        <FaUserGraduate
+          size={80}
+          className="text-blue-500"
+        />
+      </div>
 
-    <section className="profile">
+      <h2
+        className={`text-4xl font-bold ${
+          darkMode ? "text-white" : "text-slate-900"
+        }`}
+      >
+        {student.name}
+      </h2>
 
-      <h2>{student.name}</h2>
+      <h3
+        className={`text-xl mt-3 ${
+          darkMode ? "text-gray-300" : "text-gray-600"
+        }`}
+      >
+        {student.course}
+      </h3>
 
-      <h3>{student.course}</h3>
+      <h4
+        className={`text-lg ${
+          darkMode ? "text-gray-400" : "text-gray-500"
+        }`}
+      >
+        {student.college}
+      </h4>
 
-      <h4>{student.college}</h4>
+      <p
+        className={`mt-6 text-lg ${
+          darkMode ? "text-gray-200" : "text-gray-700"
+        }`}
+      >
+        {student.description}
+      </p>
 
-      <p>{student.description}</p>
-
-      <button onClick={() => setEditing(true)}>
+      <button
+        onClick={() => setEditing(true)}
+        className="mt-8 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-lg transition duration-300 hover:scale-105"
+      >
         ✏ Edit Profile
       </button>
-
     </section>
-
   );
-
 }
 
 export default Profile;
