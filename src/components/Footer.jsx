@@ -96,6 +96,22 @@ function Footer() {
               >
                 Edit Email
               </button>
+              <div className="flex items-center justify-between mt-8">
+
+  <span className="font-semibold">
+    GitHub
+  </span>
+
+  <a
+    href={student.github}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-blue-500 hover:underline"
+  >
+    View Profile
+  </a>
+
+</div>
 
             </div>
           )}

@@ -2,7 +2,6 @@ import { useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setStudent } from "../redux/profileSlice";
 import ProfileContext from "../context/ProfileContext";
-import { FaUserGraduate } from "react-icons/fa";
 
 function Profile() {
   const student = useSelector((state) => state.profile.student);
@@ -107,11 +106,12 @@ function Profile() {
       }`}
     >
       <div className="flex justify-center mb-6">
-        <FaUserGraduate
-          size={80}
-          className="text-blue-500"
-        />
-      </div>
+  <img
+    src={student.avatar}
+    alt="GitHub Avatar"
+    className="w-32 h-32 rounded-full border-4 border-blue-500 shadow-lg"
+  />
+</div>
 
       <h2
         className={`text-4xl font-bold ${
@@ -144,6 +144,15 @@ function Profile() {
       >
         {student.description}
       </p>
+      <div className="mt-6">
+  <h3 className="text-xl font-semibold">
+    Public Repositories
+  </h3>
+
+  <p className="text-3xl text-blue-500 font-bold">
+    {student.repos}
+  </p>
+</div>
 
       <button
         onClick={() => setEditing(true)}

@@ -29,21 +29,25 @@ function App() {
   useEffect(() => {
     async function loadData() {
       try {
-        // Real API
-        const response = await fetch(
-          "https://jsonplaceholder.typicode.com/users/1"
-        );
+        // GitHub API
+const response = await fetch(
+  "https://api.github.com/users/viditkhanna21"
+);
 
-        const user = await response.json();
+const user = await response.json();
 
         dispatch(
-          setStudent({
-            name: user.name,
-            course: "B.Tech",
-            college: "South Asian University",
-            description: "Learning React",
-            email: user.email,
-          })
+  setStudent({
+    name: "Vidit Khanna",
+    course: "B.Tech",
+    college: "South Asian University",
+    description: "Building Websites.",
+    email: "vidit.khanna21@gmail.com",
+
+    avatar: user.avatar_url,
+    repos: user.public_repos,
+    github: user.html_url,
+  })
         );
 
         // Fake API
