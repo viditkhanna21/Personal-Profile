@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Header from "./components/Header";
 
@@ -15,26 +15,44 @@ import {
   setStudent,
   setSkills,
   setHobbies,
+  setBackground,
 } from "./redux/profileSlice";
 
 import { getProfileData } from "./api/fakeApi";
 
+
 function App() {
   const dispatch = useDispatch();
-
-  const [darkMode, setDarkMode] = useState(false);
-
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadData() {
-      try {
-        // GitHub API
-const response = await fetch(
-  "https://api.github.com/users/viditkhanna21"
+  const background = useSelector(
+  (state) => state.profile.background
 );
 
-const user = await response.json();
+
+
+const [loading, setLoading] = useState(true);
+const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+  async function loadData() {
+    try {
+      // GitHub API
+      const response = await fetch(
+        "https://api.github.com/users/viditkhanna21"
+      );
+
+      const user = await response.json();
+
+      // Unsplash API
+      const imageResponse = await fetch(
+        `https://api.unsplash.com/photos/random?query=developer workspace&orientation=landscape&client_id=${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}`
+      );
+
+      const imageData = await imageResponse.json();
+
+      dispatch(setBackground(imageData.urls.regular));
+
+      
+      
 
         dispatch(
   setStudent({
@@ -82,13 +100,20 @@ const user = await response.json();
       }}
     >
       <BrowserRouter>
-        <div
-          className={`min-h-screen transition-all duration-300 ${
-            darkMode
-              ? "bg-slate-900 text-white"
-              : "bg-slate-100 text-slate-900"
-          }`}
-        >
+       <div
+  className={`min-h-screen transition-all duration-300 ${
+    darkMode ? "text-white" : "text-black"
+  }`}
+  style={{
+    backgroundImage: background
+      ? `linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url(${background})`
+      : "none",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundAttachment: "fixed",
+  }}
+>
           <Header />
 
           <Routes>

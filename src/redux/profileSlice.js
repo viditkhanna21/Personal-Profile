@@ -5,6 +5,7 @@ const initialState = {
   skills: [],
   hobbies: [],
   darkMode: false,
+  background: "",
 };
 
 const profileSlice = createSlice({
@@ -28,6 +29,9 @@ const profileSlice = createSlice({
     toggleDarkMode(state) {
       state.darkMode = !state.darkMode;
     },
+    setBackground: (state, action) => {
+  state.background = action.payload;
+},
   },
 });
 
@@ -36,6 +40,7 @@ export const {
   setSkills,
   setHobbies,
   toggleDarkMode,
+  setBackground,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;
